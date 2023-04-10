@@ -28,7 +28,7 @@ const escribirArchivo = async(dateList) => {
       }
 };
 
-//creamos respuesta
+//creamos ruta padre
 app.get('/', (req, res) => {
     res.send('App books')
 });
@@ -48,10 +48,9 @@ app.get('/api/v1/books/list/:id', async(req, res) => {
     const book = result.libros.find( (book) => book.id === idList)
 
     if(!book){
-        throw new Error('La lista de los libros no fue encontrada')
+        res.status(404).send('La lista de los libros no fue encontrada')
     }
 
-    console.log(req.params);
     // devolvemos el libro encontrado con su id unico.
     res.json(book);
 });
@@ -97,11 +96,11 @@ app.patch('/api/v1/books/update/:id', async(req, res) => {
     //utilizamos indice para actualizar los datos del produc
     if(bookIndex !== -1){
         result.libros[bookIndex] = { ...result.libros[bookIndex], ...updateData};
-        //escribimos lo que quedo en la lista
+        //escribimos en la lista
         await escribirArchivo(result);
         res.status(200).json(result.libros[bookIndex]);
     } else {
-        res.status(404).send(`Producto con id ${id} no encontrado`)
+        res.status(404).send(`Producto con id ${id} no fue encontrado`)
     }
 
 });
