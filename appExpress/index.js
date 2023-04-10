@@ -2,113 +2,132 @@
 const express = require('express');
 const PORT = 3000;
 const app = express();
+app.use(express.json()); //middleware para leer json en las solicitudes.
 
-app.use(express.json());
+// file sistem
+const fs = require('fs').promises;
+
+// funcion para leer la lista en el archivos .txt
+const leerArchivo = async() => {
+    try {
+        const dateListBuffer = await fs.readFile('listBooks.txt');
+        const dateListJavascript = JSON.parse( dateListBuffer.toString());
+        return dateListJavascript;
+    } catch (error) {
+        console.error(error);
+    }
+};
+// funcion para escribir texto en el archivo .txt
+const escribirArchivo = async(dateList) => {
+    try {
+        dateList = JSON.stringify(dateList, null, 2)
+        await fs.writeFile('listBooks.txt', dateList);
+        console.log('Escribimos un nuevo book en la lista');
+      } catch (error) {
+        console.error(error);
+      }
+};
 
 //creamos respuesta
 app.get('/', (req, res) => {
     res.send('App books')
 });
 
-const list = [
-    {
-        id: 1,
-        title: 'El problema de los tres cuerpos',
-        author: 'Cixin Liu',
-        category: 'Ciencia Ficción',
-        description: '"El problema de los tres cuerpos" arranca en la Revolución cultural china y salta uno años para seguir el proyecto gubernamental secreto Costa Roja. Un proyecto de busca de vida extraterrestre en el que trabaja Ye Wenjie, científica hija de un profesor purgado en esa época.',
-        price: 70000 ,
-        pages: 574,
-        unit: 1,
-    },
-    {
-        id: 2,
-        title: 'El psicoanalista',
-        author: 'John Katzenbach',
-        category: 'Thriller psicológico',
-        description: '"El psicoanalista" es un thriller psicológico que cuenta la historia del Dr. Starks, un reconocido psicoanalista de Nueva York que se ve atrapado en un juego mortal cuando uno de sus pacientes lo amenaza de muerte. El paciente es un asesino en serie llamado Rumplestiltskin, quien desafía al Dr. Starks a descubrir su verdadera identidad en un plazo de quince días o morirá junto con su familia.',
-        price: 86000 ,
-        pages: 560,
-        unit: 1,
-    },
-    {
-        id: 3,
-        title: 'It',
-        author: 'Stephen King',
-        category: 'Novela de terror',
-        description: '"It" es una novela de terror que cuenta la historia de un grupo de siete amigos llamados "El Club de los Perdedores", que luchan contra un ser sobrenatural que se alimenta del miedo y de la carne de los niños. El ser, que adopta la forma de un payaso llamado Pennywise, acecha a los niños en la ciudad ficticia de Derry, Maine, y resurge 27 años después para enfrentarse a los ya adultos miembros del Club de los Perdedores.',
-        price: 83000 ,
-        pages: 1.138,
-        unit: 1,
-    },
-    {
-        id: 4,
-        title: 'Libertad,La valentía de ser tú mismo',
-        author: 'Osho',
-        category: 'Autoayuda y Espiritualidad',
-        description: '"Libertad: La valentía de ser tú mismo" es un libro que explora los obstáculos que enfrentamos en nuestra búsqueda de libertad y felicidad en la vida. A través de sus enseñanzas, Osho nos invita a cuestionar nuestras creencias y hábitos arraigados, y nos muestra cómo podemos liberarnos de las limitaciones que nos impiden ser nosotros mismos y vivir plenamente.',
-        price: 25000 ,
-        pages: 272,
-        unit: 1,
-    },
-    {
-        id: 5,
-        title: 'Hush, Hush',
-        author: 'Becca Fitzpatrick',
-        category: 'Fantasía y Romance para jóvenes adultos.',
-        description: '"Hush, Hush" es una novela de fantasía y romance que sigue la historia de una adolescente llamada Nora Grey, quien se ve envuelta en una peligrosa trama que involucra ángeles caídos y criaturas sobrenaturales. Con la ayuda de su misterioso compañero de clase, Patch Cipriano, Nora debe descubrir la verdad detrás de los secretos que rodean su vida y enfrentar a los peligros que amenazan su existencia.',
-        price: 52000 ,
-        pages: 391,
-        unit: 1,
-    },
-    {
-        id: 6,
-        title: 'Las mujeres que aman demasiado',
-        author: 'Robin Norwood',
-        category: 'Autoayuda.',
-        description: '"Las mujeres que aman demasiado" es un libro de autoayuda que se enfoca en la codependencia en las relaciones amorosas. La autora, Robin Norwood, explora el comportamiento y las actitudes que llevan a algunas mujeres a buscar y mantener relaciones con hombres que las lastiman, y ofrece herramientas y consejos prácticos para ayudar a superar esta dinámica destructiva.',
-        price: 20000 ,
-        pages: 334,
-        unit: 1,
-    },
-];
-
 //definimos ruta de entrada para los products.
-app.get('/api/v1/books/list', (req, res) => {
-    res.json(list);
+app.get('/api/v1/books/list', async(req, res) => {
+    const result = await leerArchivo();
+    res.json(result);
 });
 
 //creamos el identificador unico.
-app.get('/api/v1/books/list/:id', (req, res) => {
-    const idList = parseInt(req.params.id); 
-    const bookList = list.find( (bookList) => bookList.id === idList)
+app.get('/api/v1/books/list/:id', async(req, res) => {
 
-    if(!bookList){
+    const result = await leerArchivo();
+
+    const idList = parseInt(req.params.id); 
+    const book = result.libros.find( (book) => book.id === idList)
+
+    if(!book){
         throw new Error('La lista de los libros no fue encontrada')
     }
 
     console.log(req.params);
-    res.json(bookList);
+    // devolvemos el libro encontrado con su id unico.
+    res.json(book);
 });
 
-app.patch('/api/v1/books/list/:id', (req, res) => {
+//agregamos un elemento con id unico.
+app.post('/api/v1/books/create', async(req, res) => {
+
+    const result = await leerArchivo();
+
+    //objeto con el nuevo producto.
+    const newBook = {
+        id: result.libros.length + 1,
+        title: req.body.title,
+        author: req.body.author,
+        category: req.body.category,
+        description: req.body.description,
+        price: req.body.price,
+        pages: req.body.pages,
+        unit: req.body.unit,
+    };
+    
+    // agregamos nuevo book al array
+    result.libros.push(newBook);
+
+     //escribimos lo que quedo en la lista
+    await escribirArchivo(result)
+
+    // devolvemos el producto con su id
+    res.json(result)
+});
+
+//actualizamos producto con id unico
+app.patch('/api/v1/books/update/:id', async(req, res) => {
+
+    const result = await leerArchivo();
+
     const {id} = req.params;
     const updateData = req.body;
 
-    //bucamos indice del producto
-    const producIndex = list.findIndex( (produc) => produc.id === id)
+    //buscamos indice del producto
+    const bookIndex = result.libros.findIndex( (book) => book.id == id );
 
     //utilizamos indice para actualizar los datos del produc
-    if(producIndex !== -1){
-        list[producIndex] = { ...list[producIndex], ...updateData};
-        res.status(200).json(list[producIndex]);
+    if(bookIndex !== -1){
+        result.libros[bookIndex] = { ...result.libros[bookIndex], ...updateData};
+        //escribimos lo que quedo en la lista
+        await escribirArchivo(result);
+        res.status(200).json(result.libros[bookIndex]);
     } else {
         res.status(404).send(`Producto con id ${id} no encontrado`)
     }
-    res.json(bookList);
+
 });
 
+//eliminamos producto con id unico
+app.delete('/api/v1/books/delete/:id', async(req, res) => {
 
+    const result = await leerArchivo();
+
+    const id = parseInt(req.params.id); 
+
+    const posicionesArray = result.libros.findIndex(lista => lista.id === id);
+    const tituloId = result.libros[posicionesArray].title;
+
+    if (posicionesArray !== -1) {
+        result.libros.splice(posicionesArray, 1); // eliminamos elemnt
+    }else {
+        throw new Error('Producto no encontrado')
+    }
+
+     //escribimos lo que quedo en la lista
+     await escribirArchivo(result)
+
+    // devolvemos mensaje de confirmación
+    res.json({message:`Libro '${tituloId}' fue eliminado correctamente`})
+});
 
 
 
