@@ -4,6 +4,51 @@ const PORT = 3000;
 const app = express();
 app.use(express.json()); //middleware para leer json en las solicitudes.
 
+const Joi = require('joi');
+
+// schema para la validación
+const productSchema = Joi.object({
+    title: Joi.string().when('$method', {is: 'POST', then: Joi.required() }),
+    author: Joi.string(),
+    category: Joi.string(),
+    description: Joi.string(),
+    price: Joi.number().when('$method', {is: 'POST', then: Joi.required() }),
+    pages: Joi.number().required(),
+    unit: Joi.number(),
+}).when('$method', {
+    is: Joi.string().valid('PATCH'),
+    then: Joi.object({
+        title: Joi.string().optional,
+        author: Joi.string().optional,
+        category: Joi.string().optional,
+        description: Joi.string().optional,
+        price: Joi.number().optional,
+        pages: Joi.number().optional,
+        unit: Joi.number().optional,  
+    }),
+});
+
+// Middleware para validar datos de entrada en todas las peticiones http
+const validateMiddleware  = (req, res, next) => {
+    const schema = productSchema.extend((joi) => {
+        return {
+          base: joi,
+          type: 'object',
+          messages: {
+            'object.base': 'Invalid payload',
+          },
+        };
+    });
+
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+        return res.status(400).json({ error: error.details.map(d => d.message) });
+    }
+    
+    next();
+}
+
+
 // file sistem
 const fs = require('fs').promises;
 
@@ -56,7 +101,7 @@ app.get('/api/v1/books/list/:id', async(req, res) => {
 });
 
 //agregamos un elemento con id unico.
-app.post('/api/v1/books/create', async(req, res) => {
+app.post('/api/v1/books/create',validateMiddleware, async(req, res) => {
 
     const result = await leerArchivo();
 
