@@ -2,79 +2,19 @@
 const express = require('express');
 const PORT = 3000;
 const app = express();
-app.use(express.json()); //middleware para leer json en las solicitudes.
 
-const Joi = require('joi');
+const {validateMiddlewareCreate, validateMiddlewareUpdate} = require('./middlewaresJoi')
+const {leerArchivo, escribirArchivo} = require('./fileSistem');
 
-// schema para la validación
-const createBookSchema = Joi.object({
-    title: Joi.string().required(),
-    author: Joi.string().required(),
-    category: Joi.string().required(),
-    description: Joi.string().required(),
-    price: Joi.number().required(),
-    pages: Joi.number().required(),
-    unit: Joi.number().required(),
-});
-
-const updateBookSchema = Joi.object({
-    title: Joi.string(),
-    author: Joi.string(),
-    category: Joi.string(),
-    description: Joi.string(),
-    price: Joi.number(),
-    pages: Joi.number(),
-    unit: Joi.number(),
-});
+app.use(express.json());
 
 
-// Middleware para validar datos de entrada en todas las peticiones http
-const validateMiddlewareCreate  = (req, res, next) => {
-    const { error } = createBookSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({ error: error });
-    }
-    next();
-}
-
-const validateMiddlewareUpdate  = (req, res, next) => { //Para que lo haga mi amorsito
-    const { error } = createBookSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({ error: error });
-    }
-    next();
-}
-
-// file sistem
-const fs = require('fs').promises;
-
-// funcion para leer la lista en el archivos .txt
-const leerArchivo = async() => {
-    try {
-        const dateListBuffer = await fs.readFile('listBooks.txt');
-        const dateListJavascript = JSON.parse( dateListBuffer.toString());
-        return dateListJavascript;
-    } catch (error) {
-        console.error(error);
-    }
-};
-// funcion para escribir texto en el archivo .txt
-const escribirArchivo = async(dateList) => {
-    try {
-        dateList = JSON.stringify(dateList, null, 2)
-        await fs.writeFile('listBooks.txt', dateList);
-        console.log('Escribimos un nuevo book en la lista');
-      } catch (error) {
-        console.error(error);
-      }
-};
-
-//creamos ruta padre
+//creamos ruta inicial
 app.get('/', (req, res) => {
     res.send('App books')
 });
 
-//definimos ruta de entrada para los products.
+//definimos ruta de entrada para la lista .
 app.get('/api/v1/books/list', async(req, res) => {
     const result = await leerArchivo();
     res.json(result);
@@ -124,7 +64,7 @@ app.post('/api/v1/books/create',validateMiddlewareCreate, async(req, res) => {
 });
 
 //actualizamos producto con id unico
-app.patch('/api/v1/books/update/:id', async(req, res) => {
+app.patch('/api/v1/books/update/:id',validateMiddlewareUpdate, async(req, res) => {
 
     const result = await leerArchivo();
 
@@ -137,7 +77,7 @@ app.patch('/api/v1/books/update/:id', async(req, res) => {
     //utilizamos indice para actualizar los datos del produc
     if(bookIndex !== -1){
         result.libros[bookIndex] = { ...result.libros[bookIndex], ...updateData};
-        //escribimos en la lista
+        //escribimos los datos actualizados 
         await escribirArchivo(result);
         res.status(200).json(result.libros[bookIndex]);
     } else {
@@ -169,8 +109,9 @@ app.delete('/api/v1/books/delete/:id', async(req, res) => {
     res.json({message:`Libro '${tituloId}' fue eliminado correctamente`})
 });
 
-
-
 app.listen(PORT, () => {
     console.log('Port listening')
 });
+
+
+
