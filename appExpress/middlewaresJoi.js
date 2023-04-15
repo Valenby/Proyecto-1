@@ -6,9 +6,9 @@ const createBookSchema = Joi.object({
     author: Joi.string().required(),
     category: Joi.string().required(),
     description: Joi.string().required(),
-    price: Joi.number().required(),
-    pages: Joi.number().required(),
-    unit: Joi.number().required(),
+    price: Joi.number().integer().min(0).required(),
+    pages: Joi.number().integer().min(0).required(),
+    unit: Joi.number().integer().min(0).required(),
 });
 
 const updateBookSchema = Joi.object({
@@ -16,9 +16,9 @@ const updateBookSchema = Joi.object({
     author: Joi.string(),
     category: Joi.string(),
     description: Joi.string(),
-    price: Joi.number(),
-    pages: Joi.number(),
-    unit: Joi.number(),
+    price: Joi.number().integer().min(0),
+    pages: Joi.number().integer().min(0),
+    unit: Joi.number().integer().min(0),
 });
 
 const validateMiddlewareCreate  = (req, res, next) => {
