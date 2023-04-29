@@ -1,0 +1,64 @@
+{
+  "libros": [
+    {
+      "id": 2,
+      "name": "El psicoanalista",
+      "author": "John Katzenbach",
+      "category": "Thriller psicológico",
+      "description": "\"El psicoanalista\" es un thriller psicológico que cuenta la historia del Dr. Starks, un reconocido psicoanalista de Nueva York que se ve atrapado en un juego mortal cuando uno de sus pacientes lo amenaza de muerte. El paciente es un asesino en serie llamado Rumplestiltskin, quien desafía al Dr. Starks a descubrir su verdadera identidad en un plazo de quince días o morirá junto con su familia.",
+      "price": 86000,
+      "pages": 560,
+      "availlableUnits": 3
+    },
+    {
+      "id": 3,
+      "name": "It",
+      "author": "Stephen King",
+      "category": "Novela de terror",
+      "description": "\"It\" es una novela de terror que cuenta la historia de un grupo de siete amigos llamados \"El Club de los Perdedores\", que luchan contra un ser sobrenatural que se alimenta del miedo y de la carne de los niños. El ser, que adopta la forma de un payaso llamado Pennywise, acecha a los niños en la ciudad ficticia de Derry, Maine, y resurge 27 años después para enfrentarse a los ya adultos miembros del Club de los Perdedores.",
+      "price": 83000,
+      "pages": 1.138,
+      "availlableUnits": 1
+    },
+    {
+      "id": 4,
+      "name": "Libertad,La valentía de ser tú mismo",
+      "author": "Osho",
+      "category": "Autoayuda y Espiritualidad",
+      "description": "\"Libertad: La valentía de ser tú mismo\" es un libro que explora los obstáculos que enfrentamos en nuestra búsqueda de libertad y felicidad en la vida. A través de sus enseñanzas, Osho nos invita a cuestionar nuestras creencias y hábitos arraigados, y nos muestra cómo podemos liberarnos de las limitaciones que nos impiden ser nosotros mismos y vivir plenamente.",
+      "price": 25000,
+      "pages": 272,
+      "availlableUnits": 1
+    },
+    {
+      "id": 5,
+      "name": "Hush, Hush",
+      "author": "Becca Fitzpatrick",
+      "category": "Fantasía y Romance para jóvenes adultos.",
+      "description": "\"Hush, Hush\" es una novela de fantasía y romance que sigue la historia de una adolescente llamada Nora Grey, quien se ve envuelta en una peligrosa trama que involucra ángeles caídos y criaturas sobrenaturales. Con la ayuda de su misterioso compañero de clase, Patch Cipriano, Nora debe descubrir la verdad detrás de los secretos que rodean su vida y enfrentar a los peligros que amenazan su existencia.",
+      "price": 52000,
+      "pages": 391,
+      "availlableUnits": 1
+    },
+    {
+      "id": 6,
+      "name": "Las mujeres que aman demasiado",
+      "author": "Robin Norwood",
+      "category": "Autoayuda.",
+      "description": "\"Las mujeres que aman demasiado\" es un libro de autoayuda que se enfoca en la codependencia en las relaciones amorosas. La autora, Robin Norwood, explora el comportamiento y las actitudes que llevan a algunas mujeres a buscar y mantener relaciones con hombres que las lastiman, y ofrece herramientas y consejos prácticos para ayudar a superar esta dinámica destructiva.",
+      "price": 20000,
+      "pages": 334,
+      "availlableUnits": 1
+    },
+    {
+      "id": 6,
+      "name": "dadaas",
+      "author": "Cixin Liu",
+      "category": "Ciencia Ficción",
+      "description": "\"El problema de los tres cuerpos\" arranca en la Revolución cultural china y salta uno años para seguir el proyecto gubernamental secreto Costa Roja. Un proyecto de busca de vida extraterrestre en el que trabaja Ye Wenjie, científica hija de un profesor purgado en esa época.",
+      "price": 70000,
+      "pages": 500,
+      "availlableUnits": 1
+    }
+  ]
+}
