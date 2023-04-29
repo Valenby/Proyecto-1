@@ -108,3 +108,65 @@ Elimina un registro de la tabla `productos`:
 DELETE FROM productos
 WHERE id = 2;
 ```
+<br>
+
+### EJEMPLO 2
+
+
+**Schema (MySQL v5.7)**
+
+    CREATE TABLE products (
+    	id SERIAL PRIMARY KEY,
+      	name VARCHAR(100) NOT NULL,
+      	description TEXT,
+      	price DECIMAL(10, 2) NOT NULL
+    );
+    
+    INSERT INTO products (name, description, price)
+    VALUES ('product 1', 'pansito', 3000),
+           ('product 2', 'chocolates uwu', 2000),
+           ('product 3', 'sopita :3', 5000),
+           ('product 4', 'arrosito jej', 4500),
+           ('product 5', 'gomitas 7u7', 600),
+           ('product 6', 'awuita', 0),
+           ('product 7', 'pastas :_', 8000),
+           ('product 8', 'carne de res :v', 15000 ),
+           ('product 9', 'juguito de mango', 3500),
+           ('product 10', 'gaticos con gorritos', 20000)
+           
+    
+    
+    
+    
+
+---
+
+**Query #1**
+
+    UPDATE products 
+    SET name = description
+    WHERE price >= 2000;
+
+There are no results to be displayed.
+
+---
+**Query #2**
+
+    SELECT * FROM products;
+
+| id  | name                 | description          | price    |
+| --- | -------------------- | -------------------- | -------- |
+| 1   | pansito              | pansito              | 3000.00  |
+| 2   | chocolates uwu       | chocolates uwu       | 2000.00  |
+| 3   | sopita :3            | sopita :3            | 5000.00  |
+| 4   | arrosito jej         | arrosito jej         | 4500.00  |
+| 5   | product 5            | gomitas 7u7          | 600.00   |
+| 6   | product 6            | awuita               | 0.00     |
+| 7   | pastas :_            | pastas :_            | 8000.00  |
+| 8   | carne de res :v      | carne de res :v      | 15000.00 |
+| 9   | juguito de mango     | juguito de mango     | 3500.00  |
+| 10  | gaticos con gorritos | gaticos con gorritos | 20000.00 |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/)
