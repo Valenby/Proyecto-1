@@ -1,5 +1,4 @@
 const {validateMiddlewareCreate, validateMiddlewareUpdate} = require('./middlewaresJoi')
-// const {leerArchivo, escribirArchivo} = require('./fileSistem');
 const {Router} = require("express");
 const {productModel} = require("./models");
 const routes = new Router();

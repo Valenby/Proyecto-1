@@ -170,3 +170,78 @@ There are no results to be displayed.
 ---
 
 [View on DB Fiddle](https://www.db-fiddle.com/)
+
+**Schema (PostgreSQL v9.4)**
+
+    CREATE TABLE products (
+    	id SERIAL PRIMARY KEY,
+      	name VARCHAR(100) NOT NULL,
+      	description TEXT,
+      	category TEXT,
+      	price DECIMAL(10,2) NOT NULL,
+      	stock INTEGER NOT NULL
+    );
+    
+    INSERT INTO products (name, description, category, price, stock)
+    VALUES ('teemo', 'champ mas odiado en lol', 'top', 2000, 300),
+    	   ('lux', 'maga chevere xd', 'mid',1500, 200),
+           ('miss', 'es guapa :3', 'adc', 4000, 300),
+           ('miss', 'es guapa :3', 'adc', 4000, 100);
+
+---
+
+**Query #1**
+
+    SELECT * FROM products;
+
+| id  | name  | description             | category | price   | stock |
+| --- | ----- | ----------------------- | -------- | ------- | ----- |
+| 1   | teemo | champ mas odiado en lol | top      | 2000.00 | 300   |
+| 2   | lux   | maga chevere xd         | mid      | 1500.00 | 200   |
+| 3   | miss  | es guapa :3             | adc      | 4000.00 | 300   |
+| 4   | miss  | es guapa :3             | adc      | 4000.00 | 100   |
+
+---
+**Query #2**
+
+    SELECT * FROM products 
+    ORDER BY price, stock ASC;
+
+| id  | name  | description             | category | price   | stock |
+| --- | ----- | ----------------------- | -------- | ------- | ----- |
+| 2   | lux   | maga chevere xd         | mid      | 1500.00 | 200   |
+| 1   | teemo | champ mas odiado en lol | top      | 2000.00 | 300   |
+| 4   | miss  | es guapa :3             | adc      | 4000.00 | 100   |
+| 3   | miss  | es guapa :3             | adc      | 4000.00 | 300   |
+
+---
+**Query #3**
+
+    SELECT * FROM products 
+    ORDER BY stock, price ASC;
+
+| id  | name  | description             | category | price   | stock |
+| --- | ----- | ----------------------- | -------- | ------- | ----- |
+| 4   | miss  | es guapa :3             | adc      | 4000.00 | 100   |
+| 2   | lux   | maga chevere xd         | mid      | 1500.00 | 200   |
+| 1   | teemo | champ mas odiado en lol | top      | 2000.00 | 300   |
+| 3   | miss  | es guapa :3             | adc      | 4000.00 | 300   |
+
+---
+**Query #4**
+
+    SELECT * FROM products 
+    	WHERE stock > 0
+            AND price > 6
+        ORDER BY price ASC
+        OFFSET 2
+        LIMIT 2;
+
+| id  | name | description | category | price   | stock |
+| --- | ---- | ----------- | -------- | ------- | ----- |
+| 3   | miss | es guapa :3 | adc      | 4000.00 | 300   |
+| 4   | miss | es guapa :3 | adc      | 4000.00 | 100   |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/3cCkyVRaDwq29b6THVzfFy/0)
