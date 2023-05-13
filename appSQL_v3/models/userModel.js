@@ -3,6 +3,7 @@ const sequelize = require('../utils/postgresql');
 
 class user extends Model {}
 
+//instancia d eclase modelo. 
 user.init({
     firstName: {
         type: DataTypes.STRING,
@@ -15,11 +16,12 @@ user.init({
         type: DataTypes.STRING
     },
     age: {
-        type: DataTypes.NUMBER
+        type: DataTypes.INTEGER
     },
   },{
     sequelize,
-    modelName: 'user'
+    modelName: 'user',
+    tableName: 'user'
   });
 
   module.exports = user;

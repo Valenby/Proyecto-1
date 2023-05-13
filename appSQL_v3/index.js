@@ -4,6 +4,7 @@ const express = require('express');
 const { default: mongoose } = require("mongoose");
 const Routes = require("./routes")
 
+const sequelize  = require('./utils/postgresql');
 const app = express();
 const PORT = 3000;
 
@@ -12,6 +13,8 @@ app.use('/',  Routes)
 
 const start = async () => {
     try {
+        await sequelize.sync()
+
         await mongoose.connect(process.env.MONGODB_CONNECTION, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
