@@ -57,11 +57,17 @@
             body: JSON.stringify(body)
           }).then(res => res.json());
 
-          localStorage.setItem("email", email);
-          localStorage.setItem("name", name);
-          sessionStorage.setItem("token", token);
+          if (!token) {
+            alert("Credenciales incorrectas")
+          } else {
+            localStorage.setItem("email", email);
+            localStorage.setItem("name", name);
+            // sessionStorage.setItem("token", token);
+            localStorage.setItem("token", token);
 
-          document.location.href = "/playground";
+            document.location.href = "/playground";
+          }
+
         });
       });
     </script>
@@ -70,14 +76,14 @@
     <input type='checkbox' id='form-switch'>
 
     <form id='login-form' action="" method='post'>
-        <input type="text" name="name" placeholder="name" required>
-        <input type="password" name="password" placeholder="Password" required>
+        <input type="text" name="username" placeholder="username" required>
+        <input type="password" name="password" placeholder="password" required>
         <button type='submit'>Login</button>
         <label for='form-switch'><span>Register</span></label>
     </form>
 
     <form id='register-form' action="" method='post'>
-        <input type="text" placeholder="Username" required>
+        <input type="text" placeholder="name" required>
         <input type="email" placeholder="Email" required>
         <input type="password" placeholder="Password" required>
         <input type="password" placeholder="Re Password" required>

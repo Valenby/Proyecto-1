@@ -11,6 +11,8 @@ exports.signIn = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.login(username, password);
     
+    console.log(user)
+
     if(!user) {
       res.json({error: "user / password combination does not exists"});
       return
@@ -22,7 +24,7 @@ exports.signIn = async (req, res) => {
       { expiresIn: "1d" }
     )
     
-    res.json({token, email: user.email, name: user.getFullName()});
+    res.json({token, email: user.email, name: user.name });
   } catch (e) {
     console.error(e);
     res.send(e);

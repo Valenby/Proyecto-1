@@ -7,15 +7,16 @@ router
     .get("/", welcomePage)
     .get("/health", healthCheck)
     .use("/v1/products", require("./productRoute"))
-    .use("/v1/users", require("./userRouter"));
+    .use("/v1/users", require("./userRouter"))
+    .use('/login', require('./authRoute'))
 
   
-        router.get("/login", (req, res) => {
-          res.sendFile(path.resolve("views/login.html"));
-        });
-        router.get("/playground", (req, res) => {
-          res.sendFile(path.resolve("views/playGround.html"));
-        });
+router.get("/login", (req, res) => {
+  res.sendFile(path.resolve("views/login.html"));
+});
+router.get("/playground", (req, res) => {
+  res.sendFile(path.resolve("views/playGround.html"));
+});
       
 
 module.exports = router;
