@@ -1,5 +1,5 @@
 //definimos estructura de lo que necesitamos
-const mongoose = require('mongoose');
+import mongoose  from 'mongoose';
 
 const productSchema = mongoose.Schema({
     name: {type: String, required: true},

@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 // schema para la validación
 const createBookSchema = Joi.object({

@@ -1,6 +1,6 @@
-const {Router} = require('express');
+import {Router} from 'express';
 const router = Router();
-const usersController = require("../controllers/userController");
+import usersController from "../controllers/userController";
 
 router.get("/",usersController.getAllUsers);
 router.get("/:id", usersController.getUserById) ;  

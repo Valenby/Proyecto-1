@@ -1,7 +1,7 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
-const productController = require("../controllers/productController");
-const {validateMiddlewareCreate, validateMiddlewareUpdate} = require('../middlewares/middlewaresJoi')
+import productController from "../controllers/productController";
+import {validateMiddlewareCreate, validateMiddlewareUpdate} from'../middlewares/middlewaresJoi';
 
 router.get("/", productController.getAllProducts);
 router.get("/:id", productController.getProductById);

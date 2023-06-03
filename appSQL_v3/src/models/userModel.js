@@ -1,6 +1,6 @@
-const {DataTypes, Model } = require('sequelize');
-const sequelize = require('../utils/postgresql');
-const { encryptPassword } = require('../utils/authentication')
+import {DataTypes, Model } from 'sequelize';
+import sequelize from '../utils/postgresql';
+import { encryptPassword }  from '../utils/authentication';
 
 class user extends Model {
     static login(email, password) {

@@ -1,7 +1,7 @@
-const {Router} = require("express");
-const path = require('path');
+import {Router} from"express";
+import path  from'path';
 const router = Router();
-const {healthCheck, welcomePage} = require('../controllers/appControllers');
+import {healthCheck, welcomePage} from'../controllers/appControllers';
 
 router 
     .get("/", welcomePage)
@@ -19,4 +19,4 @@ router.get("/playground", (req, res) => {
 });
       
 
-module.exports = router;
+export default router;

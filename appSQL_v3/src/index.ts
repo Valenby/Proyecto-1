@@ -1,14 +1,14 @@
 require("dotenv").config();
 
-const express = require('express');
-const Routes = require("./routes")
-const http = require('http');
+import express  from "express";
+import Routes  from "./routes"
+import http from 'http';
 
 
-const { default: mongoose } = require("mongoose");
-const sequelize  = require('./utils/postgresql');
-const {Server} = require('socket.io');
-const {ws_io} = require('./controllers/ioController');
+import { default as mongoose } from "mongoose";
+import sequelize from './utils/postgresql';
+import { Server } from 'socket.io';
+import { ws_io } from './controllers/ioController';
 
 const app = express();
 const server = http.createServer(app);// el servidor de expres con sever
