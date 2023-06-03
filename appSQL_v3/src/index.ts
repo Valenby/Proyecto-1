@@ -24,6 +24,11 @@ app.use('/',  Routes)
 
 const start = async () => {
     try {
+
+        if (process.env.MONGODB_CONNECTION === undefined) {
+            throw new Error("MONGODB_CONNECTION no esta definido");
+        }
+
         await sequelize.sync()
         await mongoose.connect(process.env.MONGODB_CONNECTION);
 
