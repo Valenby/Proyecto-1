@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { Request, Response } from 'express';
 
 // schema para la validación
 const createBookSchema = Joi.object({
@@ -21,7 +22,7 @@ const updateBookSchema = Joi.object({
     availlableUnits: Joi.number().integer().min(0),
 });
 
-const validateMiddlewareCreate  = (req, res, next) => {
+export const validateMiddlewareCreate  = (req: Request, res: Response, next: any) => {
     const { error } = createBookSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ error: error });
@@ -29,14 +30,10 @@ const validateMiddlewareCreate  = (req, res, next) => {
     next();
 }
 
-const validateMiddlewareUpdate  = (req, res, next) => { //Para que lo haga mi amorsito
+export const validateMiddlewareUpdate  = (req: Request, res: Response, next: any) => { //Para que lo haga mi amorsito
     const { error } = updateBookSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ error: error });
     }
     next();
 };
-module.exports = {
-    validateMiddlewareCreate,
-    validateMiddlewareUpdate
-}

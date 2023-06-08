@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateMiddlewareUpdate = exports.validateMiddlewareCreate = void 0;
 const joi_1 = __importDefault(require("joi"));
 // schema para la validación
 const createBookSchema = joi_1.default.object({
@@ -30,6 +31,7 @@ const validateMiddlewareCreate = (req, res, next) => {
     }
     next();
 };
+exports.validateMiddlewareCreate = validateMiddlewareCreate;
 const validateMiddlewareUpdate = (req, res, next) => {
     const { error } = updateBookSchema.validate(req.body);
     if (error) {
@@ -37,7 +39,4 @@ const validateMiddlewareUpdate = (req, res, next) => {
     }
     next();
 };
-module.exports = {
-    validateMiddlewareCreate,
-    validateMiddlewareUpdate
-};
+exports.validateMiddlewareUpdate = validateMiddlewareUpdate;
