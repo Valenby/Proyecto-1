@@ -3,10 +3,9 @@ name: "mi primer workflow"
 on:
   workflow_dispatch:
   
-    #push:
-    # branches:
-    # - main
-    # - feacture/*
+  push:
+    branches:
+      - main
     
 jobs:
   compile:
@@ -21,11 +20,10 @@ jobs:
           -node-version: 18.x
           
       - name: Install
-        working-directory: appSQL_v3
-        run: npm ci --silent
-      
-      - name: compile
-        run: npx tsc
+        working-directory: "appSQL_v3/"
+        run: |
+          npm ci --silent
+          npm run build
         
         
     
