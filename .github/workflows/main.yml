@@ -21,8 +21,8 @@ jobs:
           -node-version: 18.x
           
       - name: Install
-        run: npm ci --silent
         working-directory: appSQL_v3
+        run: npm ci --silent
       
       - name: compile
         run: npx tsc
