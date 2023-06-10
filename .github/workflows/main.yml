@@ -22,12 +22,12 @@ jobs:
           
       - name: Install
         run: npm ci --silent
-      
+        working-directory: appSQL_v3
       
       - name: compile
         run: npx tsc
         
-        working-directory: appSQL_v3
+        
     
 
 
