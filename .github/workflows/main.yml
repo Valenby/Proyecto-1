@@ -1,0 +1,23 @@
+name: "mi primer workflow"
+
+on:
+  workflow_dispatch:
+  
+    #push:
+    # branches:
+    # - main
+    # - feacture/*
+    
+jobs:
+  compile:
+   runs-on: ubuntu-latest 
+   steps: 
+      - name: Checkout
+      - uses: actions/checkout@v3.5.3
+      
+      - name: compile
+        run: npx tsc
+
+    
+
+
